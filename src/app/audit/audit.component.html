@@ -1,0 +1,64 @@
+<h1>Hi {{currentUser.firstName}}!</h1>
+<p>You're logged in with Angular 8!!</p>
+<h3>All login audit :</h3>
+{{AUDIT_DATA}}
+<!-- <ul>
+    <li *ngFor="let audit of audits">
+        <br/><span class="badge badge-primary">{{audit.user}}</span>
+        <br/><span class="badge badge-secondary">{{audit._id}}</span>
+        <br/>Login - {{audit.loginTime | date : 'dd/MM/YYYY hh:mm:ss'}}
+        <br/>Logout - {{audit.logoutTime | date: 'dd/MM/YYYY hh:mm:ss'}}
+        <br/>IP - {{audit.ip}}
+    </li>
+
+</ul> -->
+
+<div fxLayout fxLayoutAlign="center center">
+    <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Filter">
+</div>
+
+<div class="date-format">
+  <form [formGroup]='dateForm'>
+  <select name="time" id="time" formControlName='date'>
+    <option value="24hr">24HR</option>
+    <option value="12hr">12HR</option>
+  </select>
+  <button type="button" (click)="changeDate()">Change Date Format</button>
+</form>
+</div>
+
+<table style="width: 1200px;" mat-table [dataSource]="adults" matSort class="mat-elevation-z8">
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="user">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> User </th>
+      <td mat-cell *matCellDef="let audit"> {{audit.user}} </td>
+    </ng-container>
+  
+    <!-- Name Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> _id </th>
+      <td mat-cell *matCellDef="let audit"> {{audit.id}} </td>
+    </ng-container>
+  
+    <!-- Weight Column -->
+    <ng-container matColumnDef="LoginTime">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Login Time </th>
+      <td mat-cell *matCellDef="let audit"> {{ this.dateFormat==='12hr' ? (audit.loginTime | date : 'dd/MM/YYYY hh:mm:ss')   : (audit.loginTime | date : 'dd/MM/YYYY HH:mm:ss') }} </td>
+    </ng-container>
+  
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="LogOutTime">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> LogOut Time </th>
+      <td mat-cell *matCellDef="let audit"> {{this.dateFormat==='12hr' ? (audit.logoutTime | date : 'dd/MM/YYYY hh:mm:ss')   : (audit.logoutTime | date : 'dd/MM/YYYY HH:mm:ss')}} </td>
+    </ng-container>
+    <ng-container matColumnDef="IP">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> IP </th>
+      <td mat-cell *matCellDef="let audit"> {{audit.ip}} </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[20]" showFirstLastButtons></mat-paginator>
