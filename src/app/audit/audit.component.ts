@@ -60,7 +60,6 @@ export class AuditComponent implements OnInit {
 
       changeDate(){
         this.dateForm.value.date ? this.dateFormat =this.dateForm.value.date : this.dateFormat;
-        console.log(this.dateForm.value.date);
       }
 
     ngAfterViewInit() {
